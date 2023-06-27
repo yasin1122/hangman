@@ -7,6 +7,7 @@ const finalMessage = document.getElementById('final-message')
 const finalMessageRevealWord = document.getElementById(
   'final-message-reveal-word'
 )
+const buttonsContainer = document.getElementById('buttons-container')
 
 const figureParts = document.querySelectorAll('.figure-part')
 
@@ -94,29 +95,53 @@ function showNotification() {
   }, 2000)
 }
 
+// Process letter
+function processLetter(letter) {
+  if (selectedWord.includes(letter)) {
+    if (!correctLetters.includes(letter)) {
+      correctLetters.push(letter)
+      displayWord()
+    } else {
+      showNotification()
+    }
+  } else {
+    if (!wrongLetters.includes(letter)) {
+      wrongLetters.push(letter)
+      updateWrongLettersEl()
+    } else {
+      showNotification()
+    }
+  }
+}
+
+// Generate buttons for each letter
+Array.from({ length: 26 }, (_, i) => i + 97)
+  .map(code => String.fromCharCode(code))
+  .forEach(letter => {
+    const button = document.createElement('button')
+    button.classList.add('letter-button')
+    button.value = letter
+    button.textContent = letter
+    buttonsContainer.appendChild(button)
+  })
+
+// Select all the letter buttons
+const letterButtons = document.querySelectorAll('.letter-button')
+
+// Add event listener to each letter button
+letterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    if (playable) {
+      processLetter(button.value)
+    }
+  })
+})
+
 // Keydown letter press
 window.addEventListener('keydown', e => {
   if (playable) {
     if (e.keyCode >= 65 && e.keyCode <= 90) {
-      const letter = e.key.toLowerCase()
-
-      if (selectedWord.includes(letter)) {
-        if (!correctLetters.includes(letter)) {
-          correctLetters.push(letter)
-
-          displayWord()
-        } else {
-          showNotification()
-        }
-      } else {
-        if (!wrongLetters.includes(letter)) {
-          wrongLetters.push(letter)
-
-          updateWrongLettersEl()
-        } else {
-          showNotification()
-        }
-      }
+      processLetter(e.key.toLowerCase())
     }
   }
 })
@@ -125,7 +150,7 @@ window.addEventListener('keydown', e => {
 playAgainBtn.addEventListener('click', () => {
   playable = true
 
-  //  Empty arrays
+  // Empty arrays
   correctLetters.splice(0)
   wrongLetters.splice(0)
 
