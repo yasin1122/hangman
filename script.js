@@ -95,68 +95,37 @@ function showNotification() {
 }
 
 // Keydown letter press
-function handleKeyPress(key) {
+window.addEventListener('keydown', e => {
   if (playable) {
-    const letter = key.toLowerCase()
+    if (e.keyCode >= 65 && e.keyCode <= 90) {
+      const letter = e.key.toLowerCase()
 
-    if (selectedWord.includes(letter)) {
-      if (!correctLetters.includes(letter)) {
-        correctLetters.push(letter)
+      if (selectedWord.includes(letter)) {
+        if (!correctLetters.includes(letter)) {
+          correctLetters.push(letter)
 
-        displayWord()
+          displayWord()
+        } else {
+          showNotification()
+        }
       } else {
-        showNotification()
-      }
-    } else {
-      if (!wrongLetters.includes(letter)) {
-        wrongLetters.push(letter)
+        if (!wrongLetters.includes(letter)) {
+          wrongLetters.push(letter)
 
-        updateWrongLettersEl()
-      } else {
-        showNotification()
+          updateWrongLettersEl()
+        } else {
+          showNotification()
+        }
       }
     }
   }
-}
-
-// Touch keyboard button press
-function handleButtonPress(button) {
-  if (playable) {
-    const letter = button.innerText.toLowerCase()
-
-    if (selectedWord.includes(letter)) {
-      if (!correctLetters.includes(letter)) {
-        correctLetters.push(letter)
-
-        displayWord()
-      } else {
-        showNotification()
-      }
-    } else {
-      if (!wrongLetters.includes(letter)) {
-        wrongLetters.push(letter)
-
-        updateWrongLettersEl()
-      } else {
-        showNotification()
-      }
-    }
-  }
-}
-
-// Add event listeners for touch keyboard buttons
-const touchButtons = document.querySelectorAll('.touch-button')
-touchButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    handleButtonPress(button)
-  })
 })
 
 // Restart game and play again
 playAgainBtn.addEventListener('click', () => {
   playable = true
 
-  // Empty arrays
+  //  Empty arrays
   correctLetters.splice(0)
   wrongLetters.splice(0)
 
