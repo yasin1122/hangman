@@ -9,10 +9,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 80vh;
   margin: 0;
-  overflow: hidden;
+  position: relative;
 }
 
 h1 {
@@ -40,11 +39,13 @@ h1 {
 
 .wrong-letters-container {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: -20px; /* change this value to adjust the position */
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  text-align: right;
+  align-items: center;
+  text-align: center;
 }
 
 .wrong-letters-container p {
@@ -81,7 +82,6 @@ h1 {
   bottom: 0;
   left: 0;
   right: 0;
-  /* display: flex; */
   display: none;
   align-items: center;
   justify-content: center;
@@ -127,7 +127,7 @@ h1 {
 }
 
 .notification-container.show {
-  transform: translateY(-50px);
+  transform: translateY(15px);
 }
 
 .letter-button {
@@ -154,8 +154,10 @@ h1 {
   outline: 0;
 }
 
-#buttons-container {
-  display: flex;
-  flex-wrap: wrap; /* Will wrap to new line if not enough space */
-  justify-content: center; /* Centers buttons horizontally */
+/* Adjustments for smaller screen sizes */
+@media (max-height: 400px) {
+  .game-container {
+    height: 300px; /* adjust this as needed */
+    overflow: auto; /* allow scrolling if content is taller than the container */
+  }
 }
