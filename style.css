@@ -9,6 +9,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 80vh;
   margin: 0;
   overflow: hidden;
@@ -151,4 +152,10 @@ h1 {
 
 .letter-button:focus {
   outline: 0;
+}
+
+#buttons-container {
+  display: flex;
+  flex-wrap: wrap; /* Will wrap to new line if not enough space */
+  justify-content: center; /* Centers buttons horizontally */
 }
